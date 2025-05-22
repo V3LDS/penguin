@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
@@ -110,7 +111,7 @@ const AppScreen: React.FC = () => {
             <div className="p-4">
               <div className="flex justify-between items-center mb-1">
                 <div className="flex items-center space-x-1">
-                  <Penguin className="w-4 h-4 text-blue-600" />
+                  <span className="text-lg mr-1">🐧</span>
                   <span className="text-xs font-medium text-gray-700">{savedPenguins} penguins helped</span>
                 </div>
                 <span className="text-xs font-medium text-gray-500">{plasticSaved}g plastic saved</span>
