@@ -6,7 +6,7 @@ import AppScreen from '@/components/AppScreen';
 const Index = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white">
-      <PhoneMockup className="transform-gpu">
+      <PhoneMockup className="transform-gpu animate-float">
         <AppScreen />
       </PhoneMockup>
     </div>
