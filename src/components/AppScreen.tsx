@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
-import { Info, ArrowUp, Award, Heart, CheckCircle, Plus, ArrowRight, Settings } from 'lucide-react';
+import { Info, Award, Heart, CheckCircle, ArrowRight, Settings, Cup, Penguin, Recycle, Earth } from 'lucide-react';
 
 // Fake penguin data
 const fakePenguins = [
@@ -15,17 +15,19 @@ const fakePenguins = [
 
 // Fake user activities
 const fakeActivities = [
-  { id: 1, action: "Donation", amount: "$15.00", date: "Today", impact: "Saves 3 penguins" },
+  { id: 1, action: "Used Reusable Cup", amount: "5th time", date: "Today", impact: "Saved 1 penguin habitat" },
   { id: 2, action: "Beach Cleanup", location: "North Shore", date: "Yesterday", impact: "10 lbs plastic removed" },
   { id: 3, action: "Shared Campaign", platform: "Instagram", date: "2 days ago", impact: "Reached 242 people" },
-  { id: 4, action: "Signed Petition", cause: "Ban Single-use Plastics", date: "Last week", impact: "Joining 35,621 others" },
+  { id: 4, action: "Skipped Disposable", cause: "Brought own cup", date: "Last week", impact: "Prevented ocean pollution" },
 ];
 
 const AppScreen: React.FC = () => {
-  const [savedCount, setSavedCount] = useState(404);
+  const [cupCount, setCupCount] = useState(28);
+  const [savedPenguins, setSavedPenguins] = useState(404);
   const [showInfo, setShowInfo] = useState(false);
   const [currentProgress, setCurrentProgress] = useState(65);
   const [waterLevel, setWaterLevel] = useState(30);
+  const [plasticSaved, setPlasticSaved] = useState(112);
   
   useEffect(() => {
     // Simulate rising water levels over time
@@ -40,16 +42,23 @@ const AppScreen: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleSavePenguin = () => {
-    setSavedCount(prev => prev + 1);
+  const handleUseReusableCup = () => {
+    setCupCount(prev => prev + 1);
     setCurrentProgress(prev => Math.min(prev + 5, 100));
+    
+    // Every 5 cups saves a penguin
+    if (cupCount % 5 === 4) {
+      setSavedPenguins(prev => prev + 1);
+    }
+    
+    setPlasticSaved(prev => prev + 4); // Each cup saves ~4g of plastic
   };
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-blue-50">
       {/* Header */}
       <div className="bg-blue-700 text-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
-        <h1 className="font-bold text-lg">PenguinSaver</h1>
+        <h1 className="font-bold text-lg">CupSaver</h1>
         <div className="flex items-center space-x-2">
           <button 
             onClick={() => setShowInfo(!showInfo)} 
@@ -68,10 +77,10 @@ const AppScreen: React.FC = () => {
           {/* Info Modal */}
           {showInfo && (
             <div className="mb-4 bg-white rounded-lg p-4 shadow-md border border-blue-100 animate-fade-in">
-              <h3 className="font-bold text-blue-800 mb-2">About PenguinSaver</h3>
+              <h3 className="font-bold text-blue-800 mb-2">About CupSaver</h3>
               <p className="text-sm text-gray-700">
-                Our mission is to protect penguin habitats and reduce climate impact. 
-                Every action you take helps save penguins from the effects of climate change.
+                Using reusable cups reduces plastic waste that harms penguin habitats. 
+                Every reusable cup prevents plastic from entering our oceans and helps save endangered penguin species.
               </p>
               <button 
                 onClick={() => setShowInfo(false)}
@@ -85,10 +94,27 @@ const AppScreen: React.FC = () => {
           {/* Stats Card */}
           <div className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="p-4 border-b border-gray-100">
-              <h2 className="text-sm font-medium text-gray-500">Your Impact</h2>
-              <div className="mt-1 flex items-end space-x-1">
-                <span className="text-3xl font-bold text-blue-700">{savedCount}</span>
-                <span className="text-sm font-medium text-gray-500 mb-1">penguins helped</span>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-sm font-medium text-gray-500">Your Impact</h2>
+                  <div className="mt-1 flex items-end space-x-1">
+                    <span className="text-3xl font-bold text-blue-700">{cupCount}</span>
+                    <span className="text-sm font-medium text-gray-500 mb-1">reusable cups used</span>
+                  </div>
+                </div>
+                <div className="bg-blue-100 p-3 rounded-full">
+                  <Recycle className="w-8 h-8 text-blue-600" />
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <div className="flex justify-between items-center mb-1">
+                <div className="flex items-center space-x-1">
+                  <Penguin className="w-4 h-4 text-blue-600" />
+                  <span className="text-xs font-medium text-gray-700">{savedPenguins} penguins helped</span>
+                </div>
+                <span className="text-xs font-medium text-gray-500">{plasticSaved}g plastic saved</span>
               </div>
             </div>
             
@@ -103,17 +129,17 @@ const AppScreen: React.FC = () => {
               
               <div className="mt-3 mb-1 flex justify-between items-center text-xs">
                 <span className="text-gray-600">Next level</span>
-                <span className="text-blue-700 font-medium">96 more actions</span>
+                <span className="text-blue-700 font-medium">7 more cups</span>
               </div>
               
               <Progress value={currentProgress} className="h-2" />
             </div>
           </div>
           
-          {/* Penguin Visualization */}
+          {/* Cup & Penguin Visualization */}
           <div className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden relative">
             <div className="p-4 border-b border-gray-100">
-              <h2 className="text-sm font-medium text-gray-500">Melting Ice Crisis</h2>
+              <h2 className="text-sm font-medium text-gray-500">Environmental Impact</h2>
             </div>
             
             <div className="relative h-40 bg-gradient-to-b from-blue-50 to-blue-100">
@@ -123,6 +149,9 @@ const AppScreen: React.FC = () => {
               {/* Penguin */}
               <div className="absolute left-1/2 top-1/3 transform -translate-x-1/2 -translate-y-1/2 text-4xl">🐧</div>
               
+              {/* Reusable Cup */}
+              <div className="absolute right-8 bottom-10 transform -translate-y-1/2 text-3xl">☕</div>
+              
               {/* Rising Water */}
               <div 
                 className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-500 to-blue-400 transition-all duration-1000 ease-in-out"
@@ -131,7 +160,34 @@ const AppScreen: React.FC = () => {
               
               {/* Call to action */}
               <div className="absolute bottom-2 left-0 right-0 text-center text-xs text-white font-medium px-2">
-                Rising sea levels threaten penguin habitats
+                Less plastic = Safer penguin habitats
+              </div>
+            </div>
+          </div>
+          
+          {/* Cup Usage Stats */}
+          <div className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="p-4">
+              <div className="flex justify-between mb-2">
+                <h2 className="text-sm font-bold text-gray-700">Your Cup Impact</h2>
+                <span className="text-xs font-medium text-green-600">{Math.floor(cupCount * 0.24)} kg CO₂ saved</span>
+              </div>
+              
+              <div className="mt-3 grid grid-cols-5 gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`aspect-square rounded-full flex items-center justify-center text-lg ${
+                      (i + 1) <= (cupCount % 5) ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-400"
+                    }`}
+                  >
+                    ☕
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-2 text-xs text-center text-gray-500">
+                5 reusable cups = 1 penguin saved
               </div>
             </div>
           </div>
@@ -196,11 +252,11 @@ const AppScreen: React.FC = () => {
       {/* Action buttons */}
       <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
         <button 
-          onClick={handleSavePenguin}
+          onClick={handleUseReusableCup}
           className="bg-blue-600 w-full text-white font-bold text-lg py-3 px-10 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-colors flex items-center justify-center"
         >
-          <Heart className="w-5 h-5 mr-2" />
-          SAVE A PENGUIN
+          <Earth className="w-5 h-5 mr-2" />
+          USE REUSABLE CUP
         </button>
       </div>
     </div>
