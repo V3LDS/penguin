@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
-import { Info, Award, Heart, CheckCircle, ArrowRight, Settings, Cup, Penguin, Recycle, Earth } from 'lucide-react';
+import { Info, Award, Heart, CheckCircle, ArrowRight, Settings, Coffee, Recycle, Earth } from 'lucide-react';
 
 // Fake penguin data
 const fakePenguins = [
